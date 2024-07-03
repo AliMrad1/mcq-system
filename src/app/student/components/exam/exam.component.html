@@ -1,0 +1,18 @@
+<div class="examBox">
+  <div class="examhead text-center"><h2>اختبار {{ subjectName }}</h2></div>
+
+  <app-exam-question
+    *ngFor="let question of questions, let i=index"
+    [question]="question"
+    [i]="i"
+    (correctAnswerSelected)="onCorrectAnswerSelected($event)"
+  >
+  </app-exam-question>
+
+  <div class="text-center">
+      <button (click)="showExamResult()" class="btn btn-success px-5 fs-5">
+        <span *ngIf="!loading">النتيجة</span>
+        <span *ngIf="loading" class="loader"></span>
+      </button>
+  </div>
+</div>

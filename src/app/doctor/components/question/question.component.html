@@ -1,0 +1,22 @@
+<ng-container>
+  <strong><span class="text-danger">سؤال {{ i + 1 }}</span> . {{ question?.text }}</strong>
+  <div class="row" dir="rtl">
+    <div class="col-sm-12" *ngFor="let answer of question?.answers">
+      {{ answer.text }}
+    </div>
+    <div class="col-sm-12">
+      <span class="text-success">الاجابة الصحيحة. {{ question?.answers!![question?.correctAnswerIndex!!].text!! }}</span>
+    </div>
+  </div>
+  <div class="text-right">
+    <button mat-raised-button class="btn btn-warning">تعديل</button>
+    <button mat-raised-button class="btn btn-danger mx-3" (click)="deleteQuestion(question?.id)">
+      <span *ngIf="!loading">حذف</span>
+      <span *ngIf="loading" class="loader"></span>
+    </button>
+  </div>
+  <hr>
+</ng-container>
+
+
+

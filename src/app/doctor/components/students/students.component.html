@@ -1,0 +1,43 @@
+<div class="students">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="id" >
+      <th mat-header-cell *matHeaderCellDef>رمز التعريف</th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <!-- Fullname Column -->
+    <ng-container matColumnDef="full_name" *ngIf="getUserRole() === 'Professor'">
+      <th mat-header-cell *matHeaderCellDef> الاسم </th>
+      <td mat-cell *matCellDef="let element"> {{element.full_name}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email" *ngIf="getUserRole() === 'Professor'">>
+      <th mat-header-cell *matHeaderCellDef> البريد الإلكتروني </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <!-- Subject Column -->
+    <ng-container matColumnDef="subject_name">
+      <th mat-header-cell *matHeaderCellDef> المادة </th>
+      <td mat-cell *matCellDef="let element"> {{element.subject_name}} </td>
+    </ng-container>
+
+    <!-- Score Column -->
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef> الدرجة </th>
+      <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+    </ng-container>
+
+    <!-- Result Column -->
+    <ng-container matColumnDef="result">
+      <th mat-header-cell *matHeaderCellDef> النتيجة </th>
+      <td mat-cell *matCellDef="let element"> {{element.result}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

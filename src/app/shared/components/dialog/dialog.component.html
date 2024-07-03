@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.message}}</h1>
+<div mat-dialog-content>
+  <p>Your exam score is {{data.examScore}}\{{data.correctAnswerSelected}}</p>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>Try new exam.</button>
+</div>

@@ -1,0 +1,18 @@
+<div class="examBox">
+  <div class="examhead text-center"><h2>اختبار {{subjectName}}</h2></div>
+  <div *ngFor="let question of questions; let i = index" class="quizBox">
+    <app-question [question]="question" [i]="i"
+                  (emitDeleteQuestion)="isQuestionDeleted($event)">
+
+    </app-question>
+
+  </div>
+
+  <ng-container >
+    <p *ngIf="questions.length === 0">لا توجد أسئلة حالياً.</p>
+    <button *ngIf="getUserRole() === 'Professor'" mat-raised-button color="primary" (click)="goToAddQuestionPage(subjectId)">إضافة سؤال جديد</button>
+    <button mat-raised-button color="warn" class="mx-2" (click)="backToAllExams()">الرجوع</button>
+    <hr>
+  </ng-container>
+
+</div>

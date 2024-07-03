@@ -1,0 +1,172 @@
+<div class="register">
+    <div class="text-center registhead">
+        <h2>Register</h2>
+    </div>
+    <form [formGroup]="registerForm">
+      <div class="row">
+
+          <div class="col-sm-12 mb-3">
+            <mat-radio-group formControlName="role">
+              <mat-radio-button value="Student" [checked]=""  class="w-25" color="warn">طالب</mat-radio-button>
+              <mat-radio-button value="Professor" [checked]=""  class="w-25" color="warn">دكتور</mat-radio-button>
+            </mat-radio-group>
+
+            <mat-error *ngIf="registerForm.controls['role'].hasError('required')  && registerForm.controls['role'].touched">
+              Please select a user type.
+            </mat-error>
+
+          </div>
+
+            <div class="col-md-6 col-sm-12">
+                <mat-form-field appearance="outline" color="warn">
+                    <mat-label>الاسم</mat-label>
+                    <input matInput type="text"  formControlName="fullName">
+                     <mat-hint color="warn">must more than 5</mat-hint>
+                </mat-form-field>
+
+              <mat-error *ngIf="registerForm.controls['fullName'].hasError('required') && registerForm.controls['fullName'].touched">
+                Full name required.
+              </mat-error>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <mat-form-field appearance="outline" color="warn">
+                    <mat-label>الايميل</mat-label>
+                    <input matInput type="email"  formControlName="email">
+                </mat-form-field>
+
+              <mat-error *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched">
+                Email is <strong>required</strong>.
+              </mat-error>
+
+              <mat-error *ngIf="registerForm.controls['email'].hasError('email')
+               && registerForm.controls['email'].touched
+               && !registerForm.controls['email'].hasError('required')">
+                Please enter a valid email address.
+              </mat-error>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <mat-form-field appearance="outline" color="warn">
+                    <mat-label>كلمة المرور</mat-label>
+                    <input matInput type="password"  formControlName="password">
+                </mat-form-field>
+
+              <mat-error *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
+                Password is <strong>required</strong>.
+              </mat-error>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <mat-form-field appearance="outline" color="warn">
+                    <mat-label>تاكيد كلمة المرور</mat-label>
+                    <input matInput type="password"  formControlName="confirmPassword">
+                </mat-form-field>
+
+              <mat-error *ngIf="registerForm.controls['confirmPassword'].hasError('required') && registerForm.controls['password'].touched">
+                Confirm Password is <strong>required</strong>.
+              </mat-error>
+
+              <mat-error *ngIf="registerForm.controls['confirmPassword'].value !== registerForm.controls['password'].value && registerForm.controls['confirmPassword'].dirty">
+                Passwords do not match.
+              </mat-error>
+
+
+            </div>
+        </div>
+
+      <div class="row" *ngIf="switchBetweenStudentAndDoctor() !== '' && switchBetweenStudentAndDoctor() === 'Student'">
+
+        <div class="col-md-6 col-sm-12" >
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Registration Number</mat-label>
+            <input matInput type="text" formControlName="registrationNumber">
+            <mat-error *ngIf="registerForm.controls['registrationNumber'].hasError('required') && registerForm.controls['registrationNumber'].touched">
+              Registration number is required.
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['registrationNumber'].hasError('min')">
+              Registration number must be at least 10 characters long.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Major</mat-label>
+            <input matInput type="text" formControlName="major">
+            <mat-error *ngIf="registerForm.controls['major'].hasError('required') && registerForm.controls['major'].touched">
+              Major is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Current Semester</mat-label>
+            <input matInput type="number" formControlName="currentSemester">
+            <mat-error *ngIf="registerForm.controls['currentSemester'].hasError('required') && registerForm.controls['currentSemester'].touched">
+              Current Semester is required.
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['currentSemester'].hasError('min')">
+              Current Semester must be at least 1.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+
+
+      </div>
+
+      <div class="row"  *ngIf="switchBetweenStudentAndDoctor() !== '' && switchBetweenStudentAndDoctor() === 'Professor'">
+        <div class="col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Department</mat-label>
+            <input matInput type="text" formControlName="department">
+            <mat-error *ngIf="registerForm.controls['department'].hasError('required') && registerForm.controls['department'].touched">
+              Department is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Faculty</mat-label>
+            <input matInput type="text" formControlName="faculty">
+            <mat-error *ngIf="registerForm.controls['faculty'].hasError('required') && registerForm.controls['faculty'].touched">
+              Faculty is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Years of Experience</mat-label>
+            <input matInput type="number" formControlName="yearsOfExperience">
+            <mat-error *ngIf="registerForm.controls['yearsOfExperience'].hasError('min') && registerForm.controls['yearsOfExperience'].touched">
+              Years of Experience must be at least 0.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" color="warn">
+            <mat-label>Specialization</mat-label>
+            <input matInput type="text" formControlName="specialization">
+            <mat-error *ngIf="registerForm.controls['specialization'].hasError('required') && registerForm.controls['specialization'].touched">
+              Specialization is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+
+      </div>
+
+      <div class="text-right registfoot">
+          <a routerLink="/login" color="primary">املك حساب بالفعل ؟</a>
+            <button mat-raised-button color="warn" type="submit" (click)="register()">
+              <span *ngIf="!loading">انشاء الحساب</span>
+              <span *ngIf="loading" class="loader"></span>
+            </button>
+      </div>
+     </form>
+</div>

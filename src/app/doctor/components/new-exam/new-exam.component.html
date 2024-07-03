@@ -1,0 +1,90 @@
+<div class="new-exam">
+  <mat-horizontal-stepper linear #stepper>
+      <mat-step label="اسم المادة" [completed]="completedStepper[0]">
+          <div class="AddSubject">
+              <div>اسم المادة : </div>
+              <mat-form-field appearance="fill" color="warn">
+                  <mat-label>اسم المادة</mat-label>
+                  <input matInput type="text" [(ngModel)]="subjectName">
+              </mat-form-field>
+
+            <button color="warn" mat-raised-button *ngIf="subjectName === ''">
+              <span *ngIf="!loading">ابدأ</span>
+              <span *ngIf="loading" class="loader"></span>
+            </button>
+
+              <button color="warn" *ngIf="subjectName !== ''"   mat-raised-button matStepperNext (click)="addSubject()">
+                <span *ngIf="!loading">ابدأ</span>
+                <span *ngIf="loading" class="loader"></span>
+              </button>
+          </div>
+
+      </mat-step>
+
+      <mat-step label="اسئلة {{subjectName}}" [completed]="completedStepper[1]">
+          <div class="question">
+            <form [formGroup]="quizForm">
+              <div formArrayName="questions">
+                <div *ngFor="let question of questionsFormArray.controls; let i = index" [formGroupName]="i" class="question-container">
+                  <div class="question-header">
+                    <!-- Toggle button -->
+                    <button mat-icon-button (click)="toggleQuestion(i)">
+                      <mat-icon>{{ questionCollapsed[i] ? 'expand_more' : 'expand_less' }}</mat-icon>
+                    </button>
+                    <mat-form-field appearance="outline" color="warn" class="queiz">
+                      <mat-label>السؤال</mat-label>
+                      <input matInput type="text" formControlName="text">
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Collapse/expand content -->
+                  <div class="question-details" *ngIf="!questionCollapsed[i]">
+                    <div formArrayName="answers" class="row">
+                      <div *ngFor="let answer of answersFormArray(question); let j = index" [formGroupName]="j" class="col-md-6 col-sm-12">
+                        <mat-form-field color="warn">
+                          <mat-label>أجابة {{ j + 1 }}</mat-label>
+                          <input matInput type="text" formControlName="text">
+                        </mat-form-field>
+                        <button mat-raised-button color="accent" type="button" (click)="removeAnswer(question, j)">حذف</button>
+                      </div>
+                    </div>
+
+                    <mat-radio-group  formControlName="correctAnswerIndex" class="full-width ">
+                      <mat-label class="full-width">اختر الإجابة الصحيحة:</mat-label>
+
+                      <mat-radio-button *ngFor="let answer of answersFormArray(question); let j = index" [value]="j" color="warn">
+                        أجابة {{ j + 1 }}
+                      </mat-radio-button>
+                    </mat-radio-group>
+
+                    <div class="questBtn">
+                      <div>
+                        <button mat-raised-button color="accent" type="button" (click)="addAnswer(question)">إضافة إجابة</button>
+                        <button mat-raised-button color="warn" type="button" (click)="removeQuestion(i)">حذف السؤال</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="questBtn">
+                <div>
+
+                  <button mat-raised-button matStepperNext  class="btn btn-success" type="submit" (click)="saveQuiz()">
+                    <span *ngIf="!loading">حفظ الاختبار</span>
+                    <span *ngIf="loading" class="loader"></span>
+                  </button>
+
+                  <button mat-raised-button color="primary" type="button" (click)="addQuestion(questionsFormArray.controls[0].get('subjectId'))">إضافة سؤال</button>
+                </div>
+              </div>
+            </form>
+          </div>
+      </mat-step>
+
+      <mat-step label="عرض الاختبار" [completed]="completedStepper[2]">
+          <app-show-exam [subjectName]="subjectName" [questions]="questions"></app-show-exam>
+    </mat-step>
+
+  </mat-horizontal-stepper>
+</div>
